@@ -14,19 +14,6 @@
 <%@page import="com.liferay.portal.kernel.service.UserLocalServiceUtil" %>
 <%@page import="com.liferay.portal.kernel.util.WebKeys" %>
 
-
-
-
-<%
-	renderRequest = (RenderRequest) request.getAttribute("javax.portlet.request");
-    portletSession = renderRequest.getPortletSession();
-	List<User> users = (List<User>) portletSession.getAttribute("users");
-	if(users != null){
-        for(User userObj : users){
-%>
-	<b>Name: </b><%=userObj.getLastName() + ", " + userObj.getFirstName() %><br />
-		<%}
-		}%>
 		
 <%
 ThemeDisplay td = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
