@@ -52,29 +52,34 @@ public class UsuariosPortlet extends MVCPortlet {
 	
 	public void convenio(ActionRequest request, ActionResponse response) {
 		log.info("Metodo convenio");
-		final String convenio = ParamUtil.getString(request, "Convenio");
-		log.info(convenio);
-		try {
-			final String groupName = "Desarrolladores";
-			final long companyId = PortalUtil.getDefaultCompanyId();
-			
-			System.out.println(UserGroupLocalServiceUtil.getUserGroup(companyId, groupName).getName());
-			System.out.println(UserGroupLocalServiceUtil.getUserGroup(companyId, groupName).getGroupId());
-			//List<Group> groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
-			List<User> users = UserLocalServiceUtil.getUsers(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-			for (User user : users) {
-				if(user!=null) {
-						if(user.isActive()) {
-							if(!user.isDefaultUser()) {
-								System.out.println(user.getFullName());
+		if(ParamUtil.getString(request, "Convenio")!=null && !ParamUtil.getString(request, "Convenio").isEmpty()) {
+			final String convenio = ParamUtil.getString(request, "Convenio");
+			log.info("Tipo de grupo: "+convenio);
+			try {
+				final String groupName = "Desarrolladores";
+				final long companyId = PortalUtil.getDefaultCompanyId();
+				
+				System.out.println(UserGroupLocalServiceUtil.getUserGroup(companyId, groupName).getName());
+				System.out.println(UserGroupLocalServiceUtil.getUserGroup(companyId, groupName).getGroupId());
+				//List<Group> groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
+				List<User> users = UserLocalServiceUtil.getUsers(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+				for (User user : users) {
+					if(user!=null) {
+							if(user.isActive()) {
+								if(!user.isDefaultUser()) {
+									System.out.println(user.getFullName());
+								}
 							}
-						}
-						//UserLocalServiceUtil.addUserGroupUser(UserGroupLocalServiceUtil.getUserGroup(companyId, groupName).getUserGroupId(), user.getUserId());
+							//UserLocalServiceUtil.addUserGroupUser(UserGroupLocalServiceUtil.getUserGroup(companyId, groupName).getUserGroupId(), user.getUserId());
+					}
 				}
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
+		}else {
+			log.info("No tiene valor");
 		}
+		
 		
 	}
 	
