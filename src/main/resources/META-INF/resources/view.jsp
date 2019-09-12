@@ -14,8 +14,26 @@
 <%@page import="com.liferay.portal.kernel.service.UserLocalServiceUtil" %>
 <%@page import="com.liferay.portal.kernel.util.WebKeys" %>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %><%@
+taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
+taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
+taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+
+<liferay-theme:defineObjects />
+
+<portlet:defineObjects />
+
+<portlet:actionURL var="sendConvenio" name="convenio" />
+
+
+<aui:form action="${sendConvenio}" method="POST">
+	<aui:input name="Convenio" type="text" ></aui:input>
+	<aui:button type="submit" value="Enviar"></aui:button>
+</aui:form>
 		
-<%
+<%-- <%
 ThemeDisplay td = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 String groupName = "Desarrolladores";
 
@@ -32,4 +50,4 @@ String[] v;
 	<%
 		}
 	}
-	%>
+	%> --%>
