@@ -50,12 +50,9 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>ç
 	<aui:button type="submit" value="Enviar"></aui:button>
 </aui:form>
 
-<c:forEach var="org" items="${Logos}">
-	<img src="/image/layout_set_logo?img_id=<c:out value="${org.getLogoId()}" />" />
-</c:forEach>
 <div class="carousel">
 <c:forEach var="org" items="${Logos}">
-	<img src="/image/layout_set_logo?img_id=<c:out value="${org.getLogoId()}" />"><p><c:out value="${org.getName()}" /></p> </img>
+	<img id="${org.getOrganizationId()}" onclick="getIdOrganization(this.id)" src="/image/layout_set_logo?img_id=<c:out value="${org.getLogoId()}" />"><p><c:out value="${org.getName()}" /></p> </img>
 	
 </c:forEach>
   
@@ -78,7 +75,11 @@ String[] v;
 		}
 	}
 	%> --%>
-	
+	<script type="text/javascript">
+		function getIdOrganization(idOrganization){
+			console.log(idOrganization);
+		}
+	</script>
 	<script>
 	/*!
 	 * Waterwheel Carousel
