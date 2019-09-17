@@ -2,14 +2,19 @@ package com.consistent.cuervo.portlet;
 
 import com.consistent.cuervo.constants.UsuariosPortletKeys;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
+import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -49,9 +54,42 @@ public class UsuariosPortlet extends MVCPortlet {
 	
 	private static final Log log = LogFactoryUtil.getLog(UsuariosPortlet.class);
 	
+	@Override
+		public void render(RenderRequest arg0, RenderResponse arg1) throws IOException, PortletException {
+			// TODO Auto-generated method stub
+		List<Organization> organizations = OrganizationLocalServiceUtil.getOrganizations(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+		arg0.setAttribute("Logos", organizations);
+			super.render(arg0, arg1);
+		}
 	
-	public void convenio(ActionRequest request, ActionResponse response) {
+	
+	public void convenio(ActionRequest request, ActionResponse response) throws PortalException {
 		log.info("Metodo convenio");
+		List<Organization> organizations = OrganizationLocalServiceUtil.getOrganizations(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+		for (Organization organization : organizations) {
+			log.info("<-- inicio -->");
+			log.info("Logo: "+organization.getLogoId());
+			log.info(organization.getOrganizationId());
+			log.info(organization.getName());
+			log.info("<-- Fin -->");
+		}
+		final long companyIds = PortalUtil.getDefaultCompanyId();
+		Long organizationId = (long) 34328;
+		Group group = GroupLocalServiceUtil.getOrganizationGroup(companyIds, organizationId);
+		LayoutSet layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(group.getGroupId(), true);
+		if(layoutSet.isLogo()) {
+			
+			log.info("Live logo"+layoutSet.getLiveLogoId());
+			log.info("Live logoId"+layoutSet.getLogoId());
+		}else {
+			log.info(
+                    "private community does  not have logo");
+		}
+		
+		List<User> users2 = UserLocalServiceUtil.getOrganizationUsers(organizationId);
+		for (User user : users2) {
+			log.info("user"+user.getFullName());
+		}
 		if(ParamUtil.getString(request, "Convenio")!=null && !ParamUtil.getString(request, "Convenio").isEmpty()) {
 			final String convenio = ParamUtil.getString(request, "Convenio");
 			log.info("Tipo de grupo: "+convenio);
