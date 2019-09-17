@@ -71,8 +71,13 @@ public class UsuariosPortlet extends MVCPortlet {
 			log.info("Logo: "+organization.getLogoId());
 			log.info(organization.getOrganizationId());
 			log.info(organization.getName());
+			List<User> users = UserLocalServiceUtil.getOrganizationUsers(organization.getOrganizationId());
+			for (User user : users) {
+				log.info("Nombre"+user.getFullName());
+			}
 			log.info("<-- Fin -->");
 		}
+		
 		final long companyIds = PortalUtil.getDefaultCompanyId();
 		Long organizationId = (long) 34328;
 		Group group = GroupLocalServiceUtil.getOrganizationGroup(companyIds, organizationId);
